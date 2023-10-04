@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">ProjetUqac</string>
+    <string name="title_activity_splas_screen">SplasScreenActivity</string>
+    <string name="title_activity_splash_screen">SplashScreenActivity</string>
+    <string name="title_activity_history">HistoryActivity</string>
+    <string name="title_activity_account">AccountActivity</string>
+    <string name="navbar_item_home">Home</string>
+    <string name="navbar_item_home_route">home</string>
+    <string name="navbar_item_history">Historique</string>
+    <string name="navbar_item_history_route">historique</string>
+    <string name="navbar_item_login">Compte</string>
+    <string name="navbar_item_login_route">compte</string>
+</resources>
