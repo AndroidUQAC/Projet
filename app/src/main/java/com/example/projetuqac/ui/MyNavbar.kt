@@ -90,13 +90,13 @@ fun MyNavbar(modifier: Modifier = Modifier) {
                 modifier = modifier.padding(innerPadding))
                 {
                     composable(resourceIdRouteHome) {
-                        MainScreen(name = "1", modifier = Modifier.padding(innerPadding))
+                        MainScreen(name = "Screen 1", modifier = Modifier.padding(innerPadding))
                     }
                     composable(resourceIdRouteHistory) {
-                        HistoryScreen(name = "2", modifier = Modifier.padding(innerPadding))
+                        HistoryScreen(name = "Screen 2", modifier = Modifier.padding(innerPadding))
                     }
                     composable(resourceIdRouteLogin) {
-                        AccountActivity(name = "3", modifier = Modifier.padding(innerPadding))
+                        AccountActivity(name = "Screen 3", modifier = Modifier.padding(innerPadding))
                     }
                 }
 
