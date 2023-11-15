@@ -98,10 +98,10 @@ fun MyNavbar(modifier: Modifier = Modifier) {
                         MainScreen(modifier = Modifier.padding(innerPadding), uiState = viewModel.uiState.value)
                     }
                     composable(resourceIdRouteHistory) {
-                        HistoryScreen(name = "2", modifier = Modifier.padding(innerPadding))
+                        HistoryScreen(name = "Screen 2", modifier = Modifier.padding(innerPadding))
                     }
                     composable(resourceIdRouteLogin) {
-                        AccountActivity(name = "3", modifier = Modifier.padding(innerPadding))
+                        AccountActivity(name = "Screen 3", modifier = Modifier.padding(innerPadding))
                     }
                 }
 
