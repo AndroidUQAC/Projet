@@ -16,6 +16,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.projetuqac.ui.theme.ProjetUqacTheme
 import com.example.projetuqac.ui.mainscreen.MainActivity
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 
 class SplashScreenActivity : ComponentActivity() {
@@ -43,5 +44,5 @@ class SplashScreenActivity : ComponentActivity() {
 
 @Composable
 fun Greeting2(modifier: Modifier = Modifier) {
-    Image(painter = painterResource(id = R.drawable.ic_launcher_foreground), contentDescription = "Launched screen")
+    Image(painter = painterResource(id = R.drawable.ic_launcher_foreground), contentDescription = "Launched screen", modifier = modifier)
 }

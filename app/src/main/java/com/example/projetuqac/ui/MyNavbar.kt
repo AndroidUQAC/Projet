@@ -10,9 +10,11 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
@@ -21,8 +23,10 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.projetuqac.Greeting2
 import com.example.projetuqac.R
+import com.example.projetuqac.db.ApiViewModel
 import com.example.projetuqac.ui.accountscreen.AccountActivity
 import com.example.projetuqac.ui.historyscreen.HistoryScreen
+import com.example.projetuqac.ui.mainscreen.MainActivity
 import com.example.projetuqac.ui.mainscreen.MainScreen
 
 sealed class Screen(@StringRes val resourceIdText : Int, @StringRes val resourceIdRoute: Int, val imageId: Int) {
@@ -90,7 +94,8 @@ fun MyNavbar(modifier: Modifier = Modifier) {
                 modifier = modifier.padding(innerPadding))
                 {
                     composable(resourceIdRouteHome) {
-                        MainScreen(name = "1", modifier = Modifier.padding(innerPadding))
+                        val viewModel : ApiViewModel = hiltViewModel()
+                        MainScreen(modifier = Modifier.padding(innerPadding), uiState = viewModel.uiState.value)
                     }
                     composable(resourceIdRouteHistory) {
                         HistoryScreen(name = "2", modifier = Modifier.padding(innerPadding))
