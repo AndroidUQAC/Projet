@@ -1,11 +1,12 @@
-package com.example.projetuqac.db
+package com.example.projetuqac.db.module
 
-import android.content.Context
-import androidx.room.Room
+import com.example.projetuqac.db.api.ApiDao
+import com.example.projetuqac.db.api.ApiInterface
+import com.example.projetuqac.db.repository.ApiRepository
+import com.example.projetuqac.db.repository.ApiRepositoryImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -54,18 +55,4 @@ object OnlineModule {
             .build()
             .create(ApiInterface::class.java)
     }
-
-    @Provides
-    @Singleton
-    fun provideAppDatabase(@ApplicationContext context: Context): PostsDatabase {
-        return Room.databaseBuilder(
-            context,
-            PostsDatabase::class.java,
-            "Posts.db"
-        ).build()
-    }
-
-    @Provides
-    @Singleton
-    fun providePostDao(postsDatabase: PostsDatabase): ApiDao = postsDatabase.postDao()
 }

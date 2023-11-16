@@ -3,6 +3,7 @@ package com.example.projetuqac.ui.mainscreen
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -13,21 +14,19 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.Scaffold
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
+import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
@@ -38,21 +37,54 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.projetuqac.db.ApiInterface
-import com.example.projetuqac.db.ApiViewModel
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.window.layout.FoldingFeature
+import androidx.window.layout.WindowInfoTracker
+import com.example.projetuqac.ui.ApiViewModel
+import com.example.projetuqac.db.data.LocalDataPosts
 import com.example.projetuqac.ui.MyNavbar
 import com.example.projetuqac.ui.UiState
 import com.example.projetuqac.ui.theme.ProjetUqacTheme
+import com.example.projetuqac.ui.utils.DevicePosture
+import com.example.projetuqac.ui.utils.isBookPosture
+import com.example.projetuqac.ui.utils.isSeparating
 import dagger.hilt.android.AndroidEntryPoint
-import retrofit2.Retrofit
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
+    private val viewModel: ApiViewModel by viewModels()
+
+    @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val devicePostureFlow =  WindowInfoTracker.getOrCreate(this).windowLayoutInfo(this)
+            .flowWithLifecycle(this.lifecycle)
+            .map { layoutInfo ->
+                val foldingFeature =
+                    layoutInfo.displayFeatures
+                        .filterIsInstance<FoldingFeature>()
+                        .firstOrNull()
+                when {
+                    isBookPosture(foldingFeature) ->
+                        DevicePosture.BookPosture(foldingFeature.bounds)
+
+                    isSeparating(foldingFeature) ->
+                        DevicePosture.Separating(foldingFeature.bounds, foldingFeature.orientation)
+
+                    else -> DevicePosture.NormalPosture
+                }
+            }
+            .stateIn(
+                scope = lifecycleScope,
+                started = SharingStarted.Eagerly,
+                initialValue = DevicePosture.NormalPosture
+            )
 
         setContent {
             ProjetUqacTheme {
@@ -61,7 +93,10 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    MyNavbar()
+                    val windowSize = calculateWindowSizeClass(this)
+                    val uiState = viewModel.uiState.value
+                    val devicePosture = devicePostureFlow.collectAsState().value
+                    MyNavbar(uiState = uiState, windowSize = windowSize.widthSizeClass, foldingDevicePosture = devicePosture)
                 }
             }
         }
@@ -70,7 +105,7 @@ class MainActivity : ComponentActivity() {
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
-fun MainScreen(modifier: Modifier = Modifier, uiState: UiState) {
+fun MainScreen(modifier: Modifier = Modifier, uiState: UiState, windowSize: WindowWidthSizeClass) {
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(title = {
@@ -125,5 +160,47 @@ fun MainScreen(modifier: Modifier = Modifier, uiState: UiState) {
                 }
             }
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun CompactPreview() {
+    ProjetUqacTheme {
+        MainScreen(
+            uiState = UiState(
+                isLoading = false,
+                posts = LocalDataPosts.getPosts()
+            ),
+            windowSize = WindowWidthSizeClass.Compact
+        )
+    }
+}
+
+@Preview(showBackground = true, widthDp = 700)
+@Composable
+fun MediumPreviewDark() {
+    ProjetUqacTheme() {
+        MainScreen(
+            uiState = UiState(
+                isLoading = false,
+                posts = LocalDataPosts.getPosts()
+            ),
+            windowSize = WindowWidthSizeClass.Medium
+        )
+    }
+}
+
+@Preview(showBackground = true, widthDp = 1000)
+@Composable
+fun ExpandedPreviewDark() {
+    ProjetUqacTheme() {
+        MainScreen(
+            uiState = UiState(
+                isLoading = false,
+                posts = LocalDataPosts.getPosts()
+            ),
+            windowSize = WindowWidthSizeClass.Expanded
+        )
     }
 }

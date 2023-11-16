@@ -1,6 +1,6 @@
 package com.example.projetuqac.ui
 
-import com.example.projetuqac.db.Posts
+import com.example.projetuqac.db.api.Posts
 
 data class UiState(
     val isLoading: Boolean = false,

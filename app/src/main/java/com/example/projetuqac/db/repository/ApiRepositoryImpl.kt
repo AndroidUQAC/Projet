@@ -1,6 +1,11 @@
-package com.example.projetuqac.db
+package com.example.projetuqac.db.repository
 
 import android.util.Log
+import com.example.projetuqac.db.models.PostEntity
+import com.example.projetuqac.db.api.Posts
+import com.example.projetuqac.db.Result
+import com.example.projetuqac.db.api.ApiDao
+import com.example.projetuqac.db.api.ApiInterface
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject

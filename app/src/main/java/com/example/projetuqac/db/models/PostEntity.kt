@@ -1,4 +1,4 @@
-package com.example.projetuqac.db
+package com.example.projetuqac.db.models
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

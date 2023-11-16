@@ -1,4 +1,4 @@
-package com.example.projetuqac.db
+package com.example.projetuqac.db.api
 
 data class Posts(
     val userId: Int,

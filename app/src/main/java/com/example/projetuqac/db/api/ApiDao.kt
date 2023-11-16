@@ -1,9 +1,10 @@
-package com.example.projetuqac.db
+package com.example.projetuqac.db.api
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.example.projetuqac.db.models.PostEntity
 
 @Dao
 interface ApiDao {
