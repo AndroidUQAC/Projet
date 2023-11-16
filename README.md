@@ -2,4 +2,4 @@
 
 Projet Uqac
 
-C'est le rendu du TP2.
+C'est le rendu du TP3.
