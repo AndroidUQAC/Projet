@@ -46,8 +46,8 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.OutOfQuotaPolicy
 import androidx.work.WorkManager
 import com.example.projetuqac.HardwareStepCounterSource
-import com.example.projetuqac.ui.ApiViewModel
 import com.example.projetuqac.db.data.LocalDataPosts
+import com.example.projetuqac.ui.ApiViewModel
 import com.example.projetuqac.ui.MyNavbar
 import com.example.projetuqac.ui.UiState
 import com.example.projetuqac.ui.theme.ProjetUqacTheme

@@ -6,4 +6,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface ApiRepository {
     fun getPosts(): Flow<Result<List<Posts>>>
+
+    suspend fun refreshPosts(): Result<List<Posts>>
 }

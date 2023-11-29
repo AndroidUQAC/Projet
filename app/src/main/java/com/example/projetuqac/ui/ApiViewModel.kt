@@ -38,4 +38,6 @@ class ApiViewModel @Inject constructor(
         }
     }
 
+    fun getRepository() = apiRepository
+
 }

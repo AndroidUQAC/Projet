@@ -6,6 +6,7 @@ import com.example.projetuqac.db.api.Posts
 import com.example.projetuqac.db.Result
 import com.example.projetuqac.db.api.ApiDao
 import com.example.projetuqac.db.api.ApiInterface
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
@@ -50,4 +51,30 @@ class ApiRepositoryImpl @Inject constructor(
         val posts = localPosts.map { toPost(it) }
         emit(Result.Error(posts, cause.message ?: "Error getting posts"))
     }
+
+    override suspend fun refreshPosts(): Result<List<Posts>> {
+        try {
+            Log.d("ApiRepositoryImpl", "Je vais mettre à jour les posts")
+            val response = apiInterface.getPosts()
+            val posts = response.body()
+            if (response.isSuccessful && posts != null) {
+                // Insert only new posts
+                val postsDb = postDao.getPosts()
+                for (post in posts) {
+                    if (postsDb.find { it.id == post.id } == null) {
+                        Log.d("ApiRepositoryImpl", "Je vais insérer un nouveau post")
+                        postDao.insertPosts(listOf(fromPost(post)))
+                    }
+                }
+                return Result.Success(posts)
+            } else {
+                return Result.Error(emptyList(), "Error getting posts on the internet")
+            }
+        } catch (cause: Exception) {
+            val localPosts = postDao.getPosts()
+            val posts = localPosts.map { toPost(it) }
+            return Result.Error(posts, cause.message ?: "Error getting posts on the internet")
+        }
+    }
+
 }
