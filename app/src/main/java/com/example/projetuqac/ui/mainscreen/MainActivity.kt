@@ -41,6 +41,11 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.window.layout.FoldingFeature
 import androidx.window.layout.WindowInfoTracker
+import androidx.work.ExistingWorkPolicy
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.OutOfQuotaPolicy
+import androidx.work.WorkManager
+import com.example.projetuqac.HardwareStepCounterSource
 import com.example.projetuqac.ui.ApiViewModel
 import com.example.projetuqac.db.data.LocalDataPosts
 import com.example.projetuqac.ui.MyNavbar
@@ -100,6 +105,16 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+    }
+    override fun onResume() {
+        super.onResume()
+        val stepWorkerRequest = OneTimeWorkRequestBuilder<HardwareStepCounterSource>()
+            .setExpedited(OutOfQuotaPolicy.RUN_AS_NON_EXPEDITED_WORK_REQUEST)
+            .build()
+        WorkManager.getInstance(applicationContext)
+            .enqueueUniqueWork("step_counter",
+                ExistingWorkPolicy.KEEP,
+                stepWorkerRequest)
     }
 }
 

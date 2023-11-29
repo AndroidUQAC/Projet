@@ -10,4 +10,6 @@
     <string name="navbar_item_history_route">historique</string>
     <string name="navbar_item_login">Compte</string>
     <string name="navbar_item_login_route">compte</string>
+    <string name="step_channel_name">channel name</string>
+    <string name="step_channel_description">channel description</string>
 </resources>
