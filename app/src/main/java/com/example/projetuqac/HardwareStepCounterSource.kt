@@ -9,6 +9,7 @@ import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.os.Build
+import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.work.CoroutineWorker
 import androidx.work.ForegroundInfo
@@ -35,6 +36,7 @@ class HardwareStepCounterSource(private val context: Context, params: WorkerPara
             }
 
             numberOfStep += (it.values[0].toInt() - baseStepNumber!!)
+            Log.d("debug",numberOfStep.toString())
         }
     }
 
