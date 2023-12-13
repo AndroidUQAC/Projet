@@ -12,4 +12,5 @@
     <string name="navbar_item_login_route">compte</string>
     <string name="step_channel_name">Mes supers notifs</string>
     <string name="step_channel_description">La description de nos super notifs</string>
+    <string name="title_activity_signin">SigninActivity</string>
 </resources>

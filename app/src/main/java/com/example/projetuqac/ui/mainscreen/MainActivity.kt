@@ -1,6 +1,8 @@
 package com.example.projetuqac.ui.mainscreen
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -46,6 +48,7 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.OutOfQuotaPolicy
 import androidx.work.WorkManager
 import com.example.projetuqac.HardwareStepCounterSource
+import com.example.projetuqac.SigninActivity
 import com.example.projetuqac.db.data.LocalDataPosts
 import com.example.projetuqac.ui.ApiViewModel
 import com.example.projetuqac.ui.MyNavbar
@@ -54,6 +57,8 @@ import com.example.projetuqac.ui.theme.ProjetUqacTheme
 import com.example.projetuqac.ui.utils.DevicePosture
 import com.example.projetuqac.ui.utils.isBookPosture
 import com.example.projetuqac.ui.utils.isSeparating
+import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
@@ -101,7 +106,13 @@ class MainActivity : ComponentActivity() {
                     val windowSize = calculateWindowSizeClass(this)
                     val uiState = viewModel.uiState.value
                     val devicePosture = devicePostureFlow.collectAsState().value
-                    MyNavbar(uiState = uiState, windowSize = windowSize.widthSizeClass, foldingDevicePosture = devicePosture)
+                    if (!isLoggedIn()) {
+                        startActivity(Intent(this, SigninActivity::class.java))
+                        finish()
+                        return@Surface
+                    }
+                    val name = Firebase.auth.currentUser!!.displayName
+                    MyNavbar(uiState = uiState, windowSize = windowSize.widthSizeClass, foldingDevicePosture = devicePosture, name = name!!)
                 }
             }
         }
@@ -116,11 +127,33 @@ class MainActivity : ComponentActivity() {
                 ExistingWorkPolicy.KEEP,
                 stepWorkerRequest)
     }
+
+    override fun onStart() {
+        super.onStart()
+
+        if (!isLoggedIn()) {
+            Log.w("MainActivity", "onStart: not logged in")
+            startActivity(Intent(this, SigninActivity::class.java))
+            finish()
+            Log.w("MainActivity", "onStart: ${Firebase.auth.currentUser!!.displayName}")
+            return
+        } else {
+            Log.w("MainActivity", "onStart: ${Firebase.auth.currentUser!!.displayName}")
+        }
+
+    }
 }
+
+fun isLoggedIn() = Firebase.auth.currentUser != null
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
-fun MainScreen(modifier: Modifier = Modifier, uiState: UiState, windowSize: WindowWidthSizeClass) {
+fun MainScreen(
+    modifier: Modifier = Modifier,
+    uiState: UiState,
+    windowSize: WindowWidthSizeClass,
+    user: String
+) {
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(title = {
@@ -187,7 +220,8 @@ fun CompactPreview() {
                 isLoading = false,
                 posts = LocalDataPosts.getPosts()
             ),
-            windowSize = WindowWidthSizeClass.Compact
+            windowSize = WindowWidthSizeClass.Compact,
+            user = "name"
         )
     }
 }
@@ -201,7 +235,8 @@ fun MediumPreviewDark() {
                 isLoading = false,
                 posts = LocalDataPosts.getPosts()
             ),
-            windowSize = WindowWidthSizeClass.Medium
+            windowSize = WindowWidthSizeClass.Medium,
+            user = "name"
         )
     }
 }
@@ -215,7 +250,8 @@ fun ExpandedPreviewDark() {
                 isLoading = false,
                 posts = LocalDataPosts.getPosts()
             ),
-            windowSize = WindowWidthSizeClass.Expanded
+            windowSize = WindowWidthSizeClass.Expanded,
+            user = "name"
         )
     }
 }

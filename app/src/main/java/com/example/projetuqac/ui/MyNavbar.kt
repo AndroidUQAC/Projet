@@ -36,7 +36,7 @@ sealed class Screen(@StringRes val resourceIdText : Int, @StringRes val resource
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MyNavbar(modifier: Modifier = Modifier, uiState: UiState, windowSize: WindowWidthSizeClass, foldingDevicePosture: DevicePosture) {
+fun MyNavbar(modifier: Modifier = Modifier, uiState: UiState, windowSize: WindowWidthSizeClass, foldingDevicePosture: DevicePosture, name: String) {
 
     val navItems = listOf(
         Screen.Home,
@@ -48,14 +48,14 @@ fun MyNavbar(modifier: Modifier = Modifier, uiState: UiState, windowSize: Window
 
     when (foldingDevicePosture) {
         DevicePosture.NormalPosture -> {
-            RegularSizeBottomBar(uiState = uiState, windowSize = windowSize, navController = navController, bottomNavItems = navItems)
+            RegularSizeBottomBar(uiState = uiState, windowSize = windowSize, navController = navController, bottomNavItems = navItems, name = name)
         }
         is DevicePosture.BookPosture -> {
-            TopBar(uiState = uiState, windowSize = windowSize, navController = navController, navItems = navItems)
+            TopBar(uiState = uiState, windowSize = windowSize, navController = navController, navItems = navItems, name = name)
         }
         is DevicePosture.Separating -> {
             //            Put to left side later
-            TopBar(uiState = uiState, windowSize = windowSize, navController = navController, navItems = navItems)
+            TopBar(uiState = uiState, windowSize = windowSize, navController = navController, navItems = navItems, name = name)
         }
     }
 }
@@ -66,7 +66,8 @@ fun RegularSizeBottomBar(
     uiState: UiState,
     windowSize: WindowWidthSizeClass,
     navController: NavHostController,
-    bottomNavItems: List<Screen>) {
+    bottomNavItems: List<Screen>,
+    name: String) {
     Scaffold(modifier = modifier,
         bottomBar = {
             BottomNavigation {
@@ -114,13 +115,13 @@ fun RegularSizeBottomBar(
         {
             composable(resourceIdRouteHome) {
                 val viewModel : ApiViewModel = hiltViewModel()
-                MainScreen(modifier = Modifier.padding(innerPadding), uiState = viewModel.uiState.value, windowSize = windowSize)
+                MainScreen(modifier = Modifier.padding(innerPadding), uiState = viewModel.uiState.value, windowSize = windowSize, user = name)
             }
             composable(resourceIdRouteHistory) {
-                HistoryScreen(name = "Screen 2", modifier = Modifier.padding(innerPadding))
+                HistoryScreen(name = "Screen 2", modifier = Modifier.padding(innerPadding), user = name)
             }
             composable(resourceIdRouteLogin) {
-                AccountActivity(name = "Screen 3", modifier = Modifier.padding(innerPadding))
+                AccountActivity(name = "Screen 3", modifier = Modifier.padding(innerPadding), user = name)
             }
         }
 
@@ -132,7 +133,8 @@ fun TopBar(modifier: Modifier = Modifier,
            uiState: UiState,
            windowSize: WindowWidthSizeClass,
            navController: NavHostController,
-           navItems: List<Screen>)
+           navItems: List<Screen>,
+           name: String)
 {
     Scaffold(modifier = modifier,
         topBar = {
@@ -181,13 +183,13 @@ fun TopBar(modifier: Modifier = Modifier,
         {
             composable(resourceIdRouteHome) {
                 val viewModel : ApiViewModel = hiltViewModel()
-                MainScreen(modifier = Modifier.padding(innerPadding), uiState = viewModel.uiState.value, windowSize = windowSize)
+                MainScreen(modifier = Modifier.padding(innerPadding), uiState = viewModel.uiState.value, windowSize = windowSize, user = name)
             }
             composable(resourceIdRouteHistory) {
-                HistoryScreen(name = "Screen 2", modifier = Modifier.padding(innerPadding))
+                HistoryScreen(name = "Screen 2", modifier = Modifier.padding(innerPadding), user = name)
             }
             composable(resourceIdRouteLogin) {
-                AccountActivity(name = "Screen 3", modifier = Modifier.padding(innerPadding))
+                AccountActivity(name = "Screen 3", modifier = Modifier.padding(innerPadding), user = name)
             }
         }
 

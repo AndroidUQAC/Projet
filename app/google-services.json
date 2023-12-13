@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1028379379929",
+    "project_id": "uqacandroid",
+    "storage_bucket": "uqacandroid.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1028379379929:android:bf7d235935bdedb375d6c8",
+        "android_client_info": {
+          "package_name": "com.example.projetuqac"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1028379379929-5u63rsmhr6mqp7bkg7uvvcpod3n4onob.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.projetuqac",
+            "certificate_hash": "af5bc91a25cfdac1cf8820d861bb8b3b5fcbdeef"
+          }
+        },
+        {
+          "client_id": "1028379379929-74bk66uqllf5njt20jgmh650c6ogc5ut.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD5WhG-C7skjAJyVVeQ8wWuVQJto1M4jCI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1028379379929-74bk66uqllf5njt20jgmh650c6ogc5ut.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

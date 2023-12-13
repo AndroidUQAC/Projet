@@ -4,6 +4,8 @@ plugins {
     id("com.google.devtools.ksp")
     kotlin("kapt")
     id("com.google.dagger.hilt.android")
+
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -67,11 +69,13 @@ dependencies {
     implementation("androidx.compose.material:material:1.5.2")
     implementation("androidx.compose.material3:material3-window-size-class:1.1.0")
     implementation("androidx.window:window:1.1.0")
+    implementation(platform("androidx.compose:compose-bom:2023.03.00"))
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     androidTestImplementation(platform("androidx.compose:compose-bom:2023.03.00"))
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
+    androidTestImplementation(platform("androidx.compose:compose-bom:2023.03.00"))
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
 
@@ -97,6 +101,31 @@ dependencies {
 
 
     implementation("com.google.accompanist:accompanist-permissions:0.30.1")
+
+    // Import the Firebase BoM
+    implementation(platform("com.google.firebase:firebase-bom:32.6.0"))
+
+    implementation("com.google.android.gms:play-services-auth:20.5.0")
+
+    implementation("com.google.firebase:firebase-database-ktx")
+    implementation("com.google.firebase:firebase-storage-ktx")
+    implementation("com.google.firebase:firebase-auth-ktx")
+
+    implementation("androidx.core:core-ktx:1.9.0")
+
+    implementation("com.firebaseui:firebase-ui-auth:8.0.2")
+    implementation("com.firebaseui:firebase-ui-database:8.0.2")
+
+//    // When using the BoM, you don't specify versions in Firebase library dependencies
+//
+//    // Add the dependency for the Firebase SDK for Google Analytics
+//    implementation("com.google.firebase:firebase-analytics")
+//
+//    // TODO: Add the dependencies for any other Firebase products you want to use
+//    // See https://firebase.google.com/docs/android/setup#available-libraries
+//    // For example, add the dependencies for Firebase Authentication and Cloud Firestore
+//    implementation("com.google.firebase:firebase-auth")
+//    implementation("com.google.firebase:firebase-firestore")
 
 }
 
