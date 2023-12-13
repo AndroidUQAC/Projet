@@ -131,11 +131,12 @@ class MainActivity : ComponentActivity() {
     override fun onStart() {
         super.onStart()
 
+        val logged = isLoggedIn()
+        Log.w("MainActivity", "onStart: $logged")
         if (!isLoggedIn()) {
             Log.w("MainActivity", "onStart: not logged in")
             startActivity(Intent(this, SigninActivity::class.java))
             finish()
-            Log.w("MainActivity", "onStart: ${Firebase.auth.currentUser!!.displayName}")
             return
         } else {
             Log.w("MainActivity", "onStart: ${Firebase.auth.currentUser!!.displayName}")

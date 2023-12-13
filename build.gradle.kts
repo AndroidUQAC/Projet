@@ -5,4 +5,6 @@ plugins {
     id("com.google.devtools.ksp") version "1.8.10-1.0.9" apply false
     id("com.google.dagger.hilt.android") version "2.44" apply false
     id("com.google.gms.google-services") version "4.4.0" apply false
+    // Add the dependency for the Performance Monitoring Gradle plugin
+    id("com.google.firebase.firebase-perf") version "1.4.2" apply false
 }

@@ -121,7 +121,11 @@ fun RegularSizeBottomBar(
                 HistoryScreen(name = "Screen 2", modifier = Modifier.padding(innerPadding), user = name)
             }
             composable(resourceIdRouteLogin) {
-                AccountActivity(name = "Screen 3", modifier = Modifier.padding(innerPadding), user = name)
+                AccountActivity(
+                    name = "Screen 3",
+                    modifier = Modifier.padding(innerPadding),
+                    user = name
+                )
             }
         }
 
@@ -189,7 +193,11 @@ fun TopBar(modifier: Modifier = Modifier,
                 HistoryScreen(name = "Screen 2", modifier = Modifier.padding(innerPadding), user = name)
             }
             composable(resourceIdRouteLogin) {
-                AccountActivity(name = "Screen 3", modifier = Modifier.padding(innerPadding), user = name)
+                AccountActivity(
+                    name = "Screen 3",
+                    modifier = Modifier.padding(innerPadding),
+                    user = name
+                )
             }
         }
 

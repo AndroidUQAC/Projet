@@ -6,6 +6,8 @@ plugins {
     id("com.google.dagger.hilt.android")
 
     id("com.google.gms.google-services")
+
+    id("com.google.firebase.firebase-perf")
 }
 
 android {
@@ -115,6 +117,8 @@ dependencies {
 
     implementation("com.firebaseui:firebase-ui-auth:8.0.2")
     implementation("com.firebaseui:firebase-ui-database:8.0.2")
+
+    implementation("com.google.firebase:firebase-perf")
 
 //    // When using the BoM, you don't specify versions in Firebase library dependencies
 //
